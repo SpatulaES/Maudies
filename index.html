@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Maudie’s — Carta IA</title>
 
-  <!-- Tipografías (permitidas en público) -->
+  <!-- Tipografías -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Chela+One&display=swap" rel="stylesheet">
 
-  <!-- Estilos base mínimos -->
   <style>
     body {
       margin: 0;
@@ -18,22 +17,22 @@
     }
 
     .app {
-      max-width: 480px;
+      max-width: 520px;
       margin: 0 auto;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      background: #fff;
     }
 
     header {
-      padding: 16px;
-      background: #fff;
+      padding: 18px;
       border-bottom: 1px solid #eee;
     }
 
     header h1 {
       margin: 0;
-      font-size: 18px;
+      font-size: 20px;
     }
 
     header p {
@@ -44,35 +43,73 @@
 
     .chat {
       flex: 1;
+      position: relative;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      background: #fff;
+    }
+
+    /* Logo central */
+    .center-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .center-logo img {
+      max-width: 240px;
+      filter: blur(0.5px);
+    }
+
+    /* Botón Ver carta */
+    .menu-button {
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    .menu-button a {
+      background: #3ddc97;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
     }
 
     #messages {
       flex: 1;
-      padding: 12px;
+      padding: 16px;
       overflow-y: auto;
+      position: relative;
+      z-index: 1;
     }
 
     .input-container {
       display: flex;
       gap: 8px;
-      padding: 10px;
+      padding: 12px;
       border-top: 1px solid #eee;
-      background: #fff;
     }
 
     #prompt {
       flex: 1;
-      padding: 10px;
+      padding: 12px;
       font-size: 15px;
       border-radius: 8px;
       border: 1px solid #ddd;
     }
 
     #send {
-      padding: 10px 16px;
+      padding: 12px 18px;
       border-radius: 8px;
       border: none;
       background: #3ddc97;
@@ -80,10 +117,28 @@
       font-weight: 600;
       cursor: pointer;
     }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      padding: 10px;
+      color: #666;
+    }
+
+    footer span {
+      color: #00D77B;
+      font-family: 'Chela One', cursive;
+    }
   </style>
 </head>
 
 <body>
+
+  <!-- ID del restaurante -->
+  <script>
+    window.SPATULA_RESTAURANT_ID = "maudies";
+  </script>
+
   <div class="app">
     <header>
       <h1>Maudie’s</h1>
@@ -91,7 +146,20 @@
     </header>
 
     <main class="chat">
+
+      <!-- Botón Ver carta -->
+      <div class="menu-button">
+        <a href="./carta-maudies.pdf" target="_blank">Ver carta</a>
+      </div>
+
+      <!-- Logo central -->
+      <div class="center-logo">
+        <img src="./logoMaudies.png" alt="Maudie’s logo">
+      </div>
+
+      <!-- Mensajes -->
       <div id="messages"></div>
+
     </main>
 
     <div class="input-container">
@@ -102,17 +170,29 @@
       />
       <button id="send">Enviar</button>
     </div>
-  </div>
 
-  <!-- CONFIG DEL RESTAURANTE -->
-  <script type="module" src="./config/maudies.config.js"></script>
+    <footer>
+      Made by <span>SPATULA</span>
+    </footer>
+  </div>
 
   <!-- CORE PRIVADO -->
   <script type="module">
     import { initSpatulaCore } from "https://raw.githubusercontent.com/Spatula-code/Privado-CORE/main/src/core.js";
-    import config from "./config/maudies.config.js";
 
-    initSpatulaCore(config);
+    initSpatulaCore({
+      webhook: {
+        url: "IGNORADO_AQUI",
+        source: "maudies"
+      },
+      typing: {
+        speed: 15
+      },
+      session: {
+        storageKey: "spatula_maudies_session"
+      }
+    });
   </script>
+
 </body>
 </html>
