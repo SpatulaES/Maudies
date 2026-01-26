@@ -2,54 +2,117 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Maudie’s — Carta IA</title>
 
-  <!-- 🔗 CORE PRIVADO DE SPATULA -->
-  <!-- Este archivo se sirve desde el repo privado / CDN / subdominio -->
-  <link rel="import" href="https://core.spatula.ai/core.html">
+  <!-- Tipografías (permitidas en público) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chela+One&display=swap" rel="stylesheet">
+
+  <!-- Estilos base mínimos -->
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f7f7f7;
+    }
+
+    .app {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 16px;
+      background: #fff;
+      border-bottom: 1px solid #eee;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    header p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .chat {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+    }
+
+    #messages {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+    }
+
+    .input-container {
+      display: flex;
+      gap: 8px;
+      padding: 10px;
+      border-top: 1px solid #eee;
+      background: #fff;
+    }
+
+    #prompt {
+      flex: 1;
+      padding: 10px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    #send {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      background: #3ddc97;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
+  <div class="app">
+    <header>
+      <h1>Maudie’s</h1>
+      <p>Pregunta lo que quieras sobre nuestra carta</p>
+    </header>
 
-  <!-- ========================= -->
-  <!-- CONFIGURACIÓN MAUDIE’S    -->
-  <!-- ========================= -->
+    <main class="chat">
+      <div id="messages"></div>
+    </main>
 
-  <script>
-    /**
-     * CONFIGURACIÓN PÚBLICA DEL RESTAURANTE
-     * Este archivo es lo ÚNICO que cambia por cliente
-     */
+    <div class="input-container">
+      <input
+        id="prompt"
+        type="text"
+        placeholder="Ejemplo: recomiéndame un plato"
+      />
+      <button id="send">Enviar</button>
+    </div>
+  </div>
 
-    window.SPATULA_CONFIG = {
-      restaurantName: "Maudie’s",
-      restaurantCopy: "Pregunta lo que quieras sobre nuestra carta",
+  <!-- CONFIG DEL RESTAURANTE -->
+  <script type="module" src="./config/maudies.config.js"></script>
 
-      // Logo visible en el chat
-      logoUrl: "https://raw.githubusercontent.com/FranciscoCerrato/HTML/main/logoejemplo.png",
+  <!-- CORE PRIVADO -->
+  <script type="module">
+    import { initSpatulaCore } from "https://raw.githubusercontent.com/Spatula-code/Privado-CORE/main/src/core.js";
+    import config from "./config/maudies.config.js";
 
-      // Carta del restaurante
-      menuPdf: "https://static1.squarespace.com/static/6317a4fc254bc53def10bfbb/t/65f85bbc9fd2352342388ed6/1710775228710/2024-3+Main+Menu-min.pdf",
-
-      // Webhook de routing (entra en n8n → se redirige al workflow correcto)
-      webhookUrl: "https://n8n-n8n.dts4ar.easypanel.host/webhook/ee0f7c53-8930-4d88-a062-f50d6b459861"
-    };
+    initSpatulaCore(config);
   </script>
-
-  <!-- ========================= -->
-  <!-- EXTENSIONES DE UI PÚBLICA -->
-  <!-- ========================= -->
-
-  <script>
-    /**
-     * Función pública: abrir carta
-     * El CORE la llama, pero el restaurante la define
-     */
-    function openMenu() {
-      window.open(window.SPATULA_CONFIG.menuPdf, "_blank");
-    }
-  </script>
-
 </body>
 </html>
